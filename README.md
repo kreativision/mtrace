@@ -12,7 +12,7 @@ This is the frontend application of the MTrace Expense tracker project, built on
 
 - Clone the repository.
 - Run `npm install` in the root directory, and wait for the installation to finish.
-- Add a `.env` file to the root directory and add the following to it.
+- Add a `.env.local` file to the root directory and add the following to it.
   - `REACT_APP_API_URL=http://localhost:<PORT_OF_YOUR_BACKEND_SERVER>`
 - Run `npm start` in the root directory, the dev server should start at http://localhost:3000
 
