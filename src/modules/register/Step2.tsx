@@ -1,15 +1,19 @@
 import Alert from "@mui/material/Alert";
 import Grid from "@mui/material/Grid";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { QUESTIONS } from "../../constants/questions";
 import { User } from "../../types/user";
 
 const Step2: React.FC = () => {
   const {
     register,
     formState: { errors },
+    getValues,
   } = useFormContext<User>();
 
   return (
@@ -32,13 +36,25 @@ const Step2: React.FC = () => {
       </Typography>
       <TextField
         {...register("securityQuestion.question")}
-        label="Question"
+        select
         fullWidth
         required
         autoFocus
+        defaultValue=""
+        label="Select Question"
         error={errors.securityQuestion?.question ? true : false}
         helperText={errors.securityQuestion?.question?.message}
-      />
+      >
+        {QUESTIONS.map((q, i) => (
+          <MenuItem
+            key={i}
+            value={q}
+            selected={getValues("securityQuestion.question") === q}
+          >
+            <ListItemText sx={{ whiteSpace: "break-spaces" }}>{q}</ListItemText>
+          </MenuItem>
+        ))}
+      </TextField>
       <TextField
         {...register("securityQuestion.answer")}
         label="Answer"
@@ -47,7 +63,7 @@ const Step2: React.FC = () => {
         error={errors.securityQuestion?.answer ? true : false}
         helperText={errors.securityQuestion?.answer?.message}
       />
-      {(errors.fullName ||
+      {(errors.name ||
         errors.email ||
         errors.password ||
         errors.confirmPassword) && (

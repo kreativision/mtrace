@@ -37,13 +37,13 @@ const Step1: React.FC = () => {
     >
       <Typography variant="h5">Basic Information</Typography>
       <TextField
-        {...register("fullName")}
+        {...register("name")}
         label="Full Name"
         fullWidth
         required
         autoFocus
-        error={errors.fullName ? true : false}
-        helperText={errors.fullName?.message}
+        error={errors.name ? true : false}
+        helperText={errors.name?.message}
       />
       <TextField
         {...register("email")}

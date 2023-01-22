@@ -3,7 +3,7 @@ import * as Yup from "yup";
 // Not a proper TS integration.
 // Need to understand how this works...
 export const registerSchema = Yup.object().shape({
-  fullName: Yup.string().required("Name is required"),
+  name: Yup.string().required("Name is required"),
   email: Yup.string()
     .email("Invalid Email Address")
     .required("Email Address is required"),

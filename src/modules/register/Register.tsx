@@ -1,15 +1,23 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, Divider, MobileStepper, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import MobileStepper from "@mui/material/MobileStepper";
+import Typography from "@mui/material/Typography";
 import { Container } from "@mui/system";
+import { useSnackbar } from "notistack";
 import React, { Suspense, useMemo } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useRegisterUser } from "../../hooks/api/auth";
 import { User } from "../../types/user";
-import { registerSchema } from "../../utils/validators/register";
+import { registerSchema } from "../../utils/register.validator";
 
 const Register: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const activeStep = useMemo<number>(() => {
     return pathname.includes("step")
@@ -23,10 +31,22 @@ const Register: React.FC = () => {
     resolver: yupResolver(registerSchema),
   });
 
+  const { mutate: registerUser, isLoading: registering } = useRegisterUser({
+    onSuccess: (res) => {
+      enqueueSnackbar(res.data.message, { variant: "success" });
+      navigate("step-2", {
+        state: { completed: true, message: res.data.message },
+      });
+      form.reset();
+    },
+    // TODO: not getting type info here for some reason.
+    // onError: (err) => {
+    //   enqueueSnackbar(err.response)
+    // }
+  });
+
   const onSubmit: SubmitHandler<User> = async (values) => {
-    console.log(values);
-    form.reset();
-    navigate("step-2", { state: { completed: true } });
+    registerUser(values);
   };
 
   const handleNext = (): void => {
@@ -78,13 +98,15 @@ const Register: React.FC = () => {
           }
           nextButton={
             activeStep === 1 ? (
-              <Button
+              <LoadingButton
                 type="submit"
                 size="small"
                 disabled={!form.formState.isValid}
+                loading={registering}
+                loadingPosition="center"
               >
-                Sign Up
-              </Button>
+                {!registering && "Sign Up"}
+              </LoadingButton>
             ) : (
               <Button size="small" onClick={handleNext}>
                 Next
