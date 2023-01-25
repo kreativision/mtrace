@@ -7,7 +7,8 @@ const RStep1 = React.lazy(() => import("../register/Step1"));
 const RStep2 = React.lazy(() => import("../register/Step2"));
 const RStep3 = React.lazy(() => import("../register/Step3"));
 
-// TODO: Other Routes
+// Login Routes
+const Login = React.lazy(() => import("../login/Login"));
 
 const AppRoutes: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const AppRoutes: React.FC = () => {
         <Route path="step-1" element={<RStep2 />} />
         <Route path="step-2" element={<RStep3 />} />
       </Route>
+      <Route path="login" element={<Login />} />
     </Routes>
   );
 };

@@ -10,6 +10,7 @@ import { useSnackbar } from "notistack";
 import React, { Suspense, useMemo } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { APP_TITLE } from "../../constants/app";
 import { useRegisterUser } from "../../hooks/api/auth";
 import { User } from "../../types/user";
 import { registerSchema } from "../../utils/register.validator";
@@ -69,7 +70,7 @@ const Register: React.FC = () => {
         height: "100vh",
       }}
     >
-      <Typography variant="h4">MTrace</Typography>
+      <Typography variant="h4">{APP_TITLE}</Typography>
       <Typography variant="body1">Create a New Account</Typography>
       <Divider sx={{ margin: "1rem 0 0 0" }} />
       <Box sx={{ flexGrow: 1, overflow: "auto", margin: "0.5rem 0" }}>
